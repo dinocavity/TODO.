@@ -2,11 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const TaskForm = ({ 
-  showForm, 
-  setShowForm, 
-  handleSubmit, 
-  editingTodo, 
+const TaskForm = ({
+  showForm,
+  setShowForm,
+  handleSubmit,
+  editingTodo,
   showInfoModal,
   layoutMode
 }) => {
@@ -17,7 +17,7 @@ const TaskForm = ({
   const [subtasks, setSubtasks] = useState([]);
   const [subtaskInput, setSubtaskInput] = useState('');
   const [showSubtasks, setShowSubtasks] = useState(false);
-  
+
   // Set form values when editing a todo
   useEffect(() => {
     if (editingTodo) {
@@ -39,20 +39,20 @@ const TaskForm = ({
       setShowSubtasks(false);
     }
   }, [editingTodo]);
-  
+
   // Get priority color
   const getPriorityColor = (p) => {
-    switch(p) {
+    switch (p) {
       case 'high': return 'bg-red-500';
       case 'medium': return 'bg-yellow-400';
       case 'low': return 'bg-green-400';
       default: return 'bg-yellow-400';
     }
   };
-  
+
   // Get responsive form classes
   const getFormClasses = () => {
-    switch(layoutMode) {
+    switch (layoutMode) {
       case 'compact':
         return {
           container: 'space-y-3',
@@ -76,13 +76,13 @@ const TaskForm = ({
         };
     }
   };
-  
+
   const formClasses = getFormClasses();
-  
+
   const onSubmit = (e) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
-    
+
     handleSubmit({
       text: inputValue,
       dueDate,
@@ -91,26 +91,26 @@ const TaskForm = ({
       subtasks
     });
   };
-  
+
   // Handle adding subtasks
   const addSubtask = () => {
     if (!subtaskInput.trim()) return;
-    
+
     const newSubtask = {
       id: Date.now(),
       text: subtaskInput,
       completed: false
     };
-    
+
     setSubtasks([...subtasks, newSubtask]);
     setSubtaskInput('');
   };
-  
+
   // Handle removing subtasks
   const removeSubtask = (id) => {
     setSubtasks(subtasks.filter(subtask => subtask.id !== id));
   };
-  
+
   // Handle subtask key press (Enter to add)
   const handleSubtaskKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -118,7 +118,7 @@ const TaskForm = ({
       addSubtask();
     }
   };
-  
+
   const cancelForm = () => {
     setShowForm(false);
     setInputValue('');
@@ -126,14 +126,14 @@ const TaskForm = ({
     setDueTime('');
     setPriority('medium');
   };
-  
+
   // We'll use the modal for our form, so just return the form content
   return (
     <div className="p-6">
       <h2 className="text-xl font-light text-gray-300 mb-4">
         {editingTodo ? 'Edit Task' : 'Add New Task'}
       </h2>
-      
+
       <form onSubmit={onSubmit} className={formClasses.container}>
         <div>
           <motion.input
@@ -148,8 +148,8 @@ const TaskForm = ({
             autoFocus
           />
         </div>
-        
-        <motion.div 
+
+        <motion.div
           className="grid grid-cols-3 gap-2"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -169,8 +169,8 @@ const TaskForm = ({
             onChange={(e) => setDueTime(e.target.value)}
           />
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           className="flex space-x-1 text-xs"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -181,11 +181,10 @@ const TaskForm = ({
               key={p}
               type="button"
               onClick={() => setPriority(p)}
-              className={`py-1 px-2 rounded uppercase ${
-                priority === p 
-                  ? `${getPriorityColor(p)} bg-opacity-20 border border-${p === 'high' ? 'red' : p === 'medium' ? 'yellow' : 'green'}-400` 
-                  : 'bg-gray-900 text-gray-500'
-              }`}
+              className={`py-1 px-2 rounded uppercase ${priority === p
+                ? `${getPriorityColor(p)} bg-opacity-20 border border-${p === 'high' ? 'red' : p === 'medium' ? 'yellow' : 'green'}-400`
+                : 'bg-gray-900 text-gray-500'
+                }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -193,7 +192,7 @@ const TaskForm = ({
             </motion.button>
           ))}
         </motion.div>
-        
+
         {/* Subtasks section toggle */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -203,28 +202,37 @@ const TaskForm = ({
           <motion.button
             type="button"
             onClick={() => setShowSubtasks(!showSubtasks)}
-            className={`text-xs flex items-center py-1 px-2 rounded
-              ${showSubtasks 
-                ? 'text-yellow-400 bg-yellow-400 bg-opacity-10' 
-                : 'text-gray-500 hover:text-gray-400'}`}
-            whileHover={{ scale: 1.02 }}
+            className="bg-yellow-400 text-gray-900 flex items-center py-1 px-3 rounded text-xs"
+            whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.98 }}
           >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              viewBox="0 0 20 20" 
-              fill="currentColor" 
-              className="w-3 h-3 mr-1"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-4 h-4 mr-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              {showSubtasks 
-                ? <path fillRule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clipRule="evenodd" />
-                : <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
-              }
+              {showSubtasks ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={3}
+                  d="M5 15l7-7 7 7"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              )}
             </svg>
             {showSubtasks ? 'Hide Subtasks' : 'Add Subtasks'}
           </motion.button>
         </motion.div>
-        
+
         {/* Subtasks input and list */}
         <AnimatePresence>
           {showSubtasks && (
@@ -235,24 +243,24 @@ const TaskForm = ({
               transition={{ duration: 0.2 }}
               className="overflow-hidden"
             >
-              <motion.div 
+              <motion.div
                 className="space-y-2 p-2 rounded bg-gray-900 bg-opacity-40 border border-gray-800"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.1 }}
               >
                 <div className="text-xs text-gray-400 mb-1">
-                  {subtasks.length > 0 
-                    ? `${subtasks.length} subtask${subtasks.length > 1 ? 's' : ''}` 
+                  {subtasks.length > 0
+                    ? `${subtasks.length} subtask${subtasks.length > 1 ? 's' : ''}`
                     : 'Break down your task into smaller steps'}
                 </div>
-                
+
                 {/* Subtasks list */}
                 {subtasks.length > 0 && (
                   <ul className="space-y-1 ml-1 pl-3 border-l border-dashed border-gray-700">
                     {subtasks.map((subtask) => (
-                      <motion.li 
-                        key={subtask.id} 
+                      <motion.li
+                        key={subtask.id}
                         className="flex items-center group text-xs bg-gray-900 bg-opacity-30 p-1 rounded"
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -275,7 +283,7 @@ const TaskForm = ({
                     ))}
                   </ul>
                 )}
-                
+
                 {/* New subtask input */}
                 <div className="flex text-xs">
                   <input
@@ -296,7 +304,7 @@ const TaskForm = ({
                     +
                   </motion.button>
                 </div>
-                
+
                 <div className="text-xs text-gray-600 italic">
                   Subtasks inherit the priority of the main task
                 </div>
@@ -304,14 +312,14 @@ const TaskForm = ({
             </motion.div>
           )}
         </AnimatePresence>
-        
-        <motion.div 
+
+        <motion.div
           className="flex space-x-2 pt-2"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <motion.button 
+          <motion.button
             type="submit"
             className={`flex-1 ${formClasses.buttons} bg-transparent border border-yellow-400 text-yellow-400 rounded hover:bg-yellow-400 hover:bg-opacity-10 transition-colors duration-300`}
             whileHover={{ scale: 1.02, backgroundColor: 'rgba(251, 191, 36, 0.1)' }}
@@ -319,7 +327,7 @@ const TaskForm = ({
           >
             {editingTodo ? 'Update' : 'Add Task'}
           </motion.button>
-          <motion.button 
+          <motion.button
             type="button"
             onClick={cancelForm}
             className={`${formClasses.buttons} px-4 bg-transparent border border-gray-800 text-gray-500 rounded hover:bg-gray-900 transition-colors duration-300`}
