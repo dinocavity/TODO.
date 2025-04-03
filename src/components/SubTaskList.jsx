@@ -1,4 +1,3 @@
-// components/SubtaskList.jsx
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -50,7 +49,7 @@ const SubtaskList = ({ subtasks, mainTaskPriority, mainTaskCompleted, toggleSubt
                 aria-label={subtask.completed ? "Mark as incomplete" : "Mark as complete"}
               />
               <span 
-                className={`flex-grow ${subtask.completed || mainTaskCompleted ? 'text-gray-600 line-through' : 'text-gray-400'}`}
+                className={`flex-grow ${subtask.completed || mainTaskCompleted ? 'text-gray-600 line-through' : 'text-white-400'}`}
               >
                 {subtask.text}
               </span>

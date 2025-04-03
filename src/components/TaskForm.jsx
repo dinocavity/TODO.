@@ -1,4 +1,3 @@
-// components/TaskForm.jsx
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -202,8 +201,11 @@ const TaskForm = ({
           <motion.button
             type="button"
             onClick={() => setShowSubtasks(!showSubtasks)}
-            className="bg-yellow-400 text-gray-900 flex items-center py-1 px-3 rounded text-xs"
-            whileHover={{ scale: 1.1 }}
+            className={`text-xs flex items-center py-1 px-2 rounded
+              ${showSubtasks 
+                ? 'text-gray-700 bg-yellow-400 bg-opacity-10' 
+                : 'text-gray-500 hover:text-gray-400'}`}
+            whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
             <svg

@@ -1,4 +1,3 @@
-// components/TodoList.jsx
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import TodoItem from './TodoItem';
@@ -13,6 +12,8 @@ const TodoList = ({
   toggleTodo,
   startEdit,
   deleteTodo,
+  restoreTodo,
+  permanentlyDeleteTodo,
   addSubtask,
   toggleSubtask,
   deleteSubtask,
@@ -20,6 +21,7 @@ const TodoList = ({
   layoutMode,
   isOverdue
 }) => {
+  // Display a message when there are no tasks
   if (todos.length === 0) {
     return (
       <motion.div 
@@ -33,6 +35,7 @@ const TodoList = ({
     );
   }
   
+  // Render tasks in grid view if selected
   if (viewMode === 'grid') {
     return (
       <motion.div
@@ -43,17 +46,20 @@ const TodoList = ({
       >
         <TodoGrid
           todos={todos}
-          toggleTodo={toggleTodo}
-          startEdit={startEdit}
-          deleteTodo={deleteTodo}
+          toggleTodo={filter === 'deleted' ? undefined : toggleTodo}
+          startEdit={filter === 'deleted' ? undefined : startEdit}
+          deleteTodo={filter === 'deleted' ? permanentlyDeleteTodo : deleteTodo}
+          restoreTodo={filter === 'deleted' ? restoreTodo : undefined}
           openNoteView={openNoteView}
           layoutMode={layoutMode}
           isOverdue={isOverdue}
+          filter={filter}
         />
       </motion.div>
     );
   }
   
+  // Render tasks in list view
   return (
     <motion.ul 
       className="space-y-1"
@@ -69,15 +75,17 @@ const TodoList = ({
             todo={todo}
             isExpanded={expandedId === todo.id}
             toggleExpand={toggleExpand}
-            toggleTodo={toggleTodo}
-            startEdit={startEdit}
-            deleteTodo={deleteTodo}
+            toggleTodo={filter === 'deleted' ? undefined : toggleTodo}
+            startEdit={filter === 'deleted' ? undefined : startEdit}
+            deleteTodo={filter === 'deleted' ? permanentlyDeleteTodo : deleteTodo}
+            restoreTodo={filter === 'deleted' ? restoreTodo : undefined}
             addSubtask={addSubtask}
             toggleSubtask={toggleSubtask}
             deleteSubtask={deleteSubtask}
             openNoteView={openNoteView}
             layoutMode={layoutMode}
             isOverdue={isOverdue}
+            filter={filter}
           />
         ))}
       </AnimatePresence>

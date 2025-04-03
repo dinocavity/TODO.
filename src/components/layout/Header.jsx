@@ -1,7 +1,6 @@
-// components/Header.jsx
 import React from 'react';
 import { motion } from 'framer-motion';
-import LevelBadge from './LevelBadges';
+import LevelBadge from '../fragments/LevelBadges';
 
 const Header = ({ 
   level, 

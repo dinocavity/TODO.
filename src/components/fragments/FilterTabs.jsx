@@ -1,4 +1,3 @@
-// components/FilterTabs.jsx
 import React from 'react';
 
 const FilterTabs = ({ filter, setFilter, showInfoModal, overdueTodoCount, deletedTodoCount }) => {

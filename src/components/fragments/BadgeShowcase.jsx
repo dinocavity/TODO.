@@ -1,4 +1,3 @@
-// components/BadgeShowcase.jsx
 import React from 'react';
 import { motion } from 'framer-motion';
 import { levelBadges } from './LevelBadges';
