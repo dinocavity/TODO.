@@ -43,7 +43,7 @@ const Header = ({
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          MA. KRISTHINA<motion.span 
+          TODO<motion.span 
             className="text-yellow-400 ml-1"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
